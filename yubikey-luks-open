@@ -43,7 +43,11 @@ while true ; do
     read -r _ <&1
 done
 
-P1=$(/lib/cryptsetup/askpass "Enter password created with yubikey-luks-enroll:")
+if [ -z "$YUBIKEY_CHALLENGE" ]; then
+    P1=$(/lib/cryptsetup/askpass "Enter password created with yubikey-luks-enroll:")
+else
+    P1=$YUBIKEY_CHALLENGE
+fi
 if [ "$DBG" = "1" ]; then echo "Password: $P1"; fi
 
 if [ "$HASH" = "1" ]; then
