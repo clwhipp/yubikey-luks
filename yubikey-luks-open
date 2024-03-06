@@ -55,7 +55,13 @@ if [ "$HASH" = "1" ]; then
     if [ "$DBG" = "1" ]; then echo "Password hash: $P1"; fi
 fi
 
-R="$(printf %s "$P1" | ykchalresp -"$YUBIKEY_LUKS_SLOT" -i- 2>/dev/null || true)"
+echo "Sending challenge to yubikey. If necessary, please touch yubikey to authorize use of embedded secret ..."
+if [ -z "$EXTENDED_CHALLENGE" ]; then
+    R="$(printf %s "$P1" | ykchalresp -"$YUBIKEY_LUKS_SLOT" -i- 2>/dev/null || true)"
+else
+    yubikey_challenge=$(printf %s "yubikey-$P1" | sha256sum | awk '{print $1}')
+    R="$(printf %s "$yubikey_challenge" | ykchalresp -"$YUBIKEY_LUKS_SLOT" -i- 2>/dev/null || true)"
+fi
 if [ "$DBG" = "1" ]; then echo "Yubikey response: $R"; fi
 
 if [ -z "$R" ]; then
