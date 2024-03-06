@@ -22,6 +22,11 @@ Initialize the Yubikey for challenge response in slot 2
 Install package
 ---------------
 
+It may be necessary to install dependencies before building debians:
+
+    sudo apt-get install devscripts debhelper dh-exec
+    mk-build-deps
+
 Build the package (without signing it):
 
     make builddeb NO_SIGN=1
