@@ -10,8 +10,6 @@ The keyscript allows to boot the machine with either
 the password and the Yubikey or with a normal password
 from any key slot.
 
-luksSuspend/luksResume integration is inspired and based on https://github.com/zhongfu/ubuntu-luks-suspend
-
 Initialize Yubikey
 ------------------
 
@@ -22,18 +20,9 @@ Initialize the Yubikey for challenge response in slot 2
 Install package
 ---------------
 
-It may be necessary to install dependencies before building debians:
-
-    sudo apt-get install devscripts debhelper dh-exec
-    mk-build-deps
-
-Build the package (without signing it):
-
-    make builddeb NO_SIGN=1
-
-Install the package:
-
-    dpkg -i DEBUILD/yubikey-luks_0.*-1_all.deb
+```bash
+./install.sh
+```
 
 Assign a Yubikey to an LUKS slot
 --------------------------------
@@ -102,12 +91,6 @@ Alternatively you may add keyscript=/sbin/ykluks-keyscript to your boot cmdline 
 
     cryptoptions=target=cryptroot,source=/dev/sda,keyscript=/sbin/ykluks-keyscript
 
-Enable yubikey-luks-suspend module
-----------------------------------
-
-You can enable yubikey-luks-suspend module which allows for automatically locking encrypted LUKS containers and wiping keys from memory on suspend and unlocking them on resume by using luksSuspend, luksResume commands.
- 
-    systemctl enable yubikey-luks-suspend.service
 
 Open LUKS container protected with yubikey-luks
 -----------------------------------------------
