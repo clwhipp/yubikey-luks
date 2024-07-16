@@ -4,7 +4,15 @@
 #
 YUBIKEY_LUKS_SLOT=2 #Set this in case the value is missing in /etc/ykluks.cfg
 
+  if [ -n "$YUBIKEY_CHALLENGE" ]; then
+    YUBIKEY_CHALLENGE_BACKUP="$YUBIKEY_CHALLENGE"
+  fi
+
 . /etc/ykluks.cfg
+
+if [ -n "$YUBIKEY_CHALLENGE_BACKUP" ]; then
+    YUBIKEY_CHALLENGE="$YUBIKEY_CHALLENGE_BACKUP"
+fi
 
 if [ -z "$WELCOME_TEXT" ]; then
     WELCOME_TEXT="Please insert yubikey and press enter or enter a valid passphrase"
