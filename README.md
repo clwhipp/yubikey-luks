@@ -24,7 +24,8 @@ Install package
 
 It may be necessary to install dependencies before building debians:
 
-    sudo apt-get install devscripts debhelper dh-exec
+    sudo apt install devscripts debhelper dh-exec
+    sudo apt install equivs
     mk-build-deps
 
 Build the package (without signing it):
